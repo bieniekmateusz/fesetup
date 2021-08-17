@@ -4,7 +4,7 @@
 # (C) 2015 Hannes H Loeffler, STFC Daresbury
 #
 
-from __future__ import print_function
+
 
 import os
 
@@ -229,7 +229,7 @@ if __name__ == '__main__':
     import argparse
     import sys
     import glob
-    import cPickle as pickle
+    import pickle as pickle
 
     parser = argparse.ArgumentParser(
         description='Compute the minimal spanning tree (MST) from a set of '

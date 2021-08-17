@@ -99,9 +99,9 @@ def init(ff_type, solvent, div_ions, add_ons, mdengine, parmchk_version=2,
             ff_cmd += 'source leaprc.%s\n' % ff
             force_fields.append(ff)
     else:
-        print >> sys.stderr, 'Unsupported force field: %s' % ff_type
-        print >> sys.stderr, 'Known types are: %s' % \
-              ', '.join(AMBER_FF_TYPES)
+        print('Unsupported force field: %s' % ff_type, file=sys.stderr)
+        print('Known types are: %s' % \
+              ', '.join(AMBER_FF_TYPES), file=sys.stderr)
         sys.exit(1)
 
     try:
@@ -113,10 +113,10 @@ def init(ff_type, solvent, div_ions, add_ons, mdengine, parmchk_version=2,
 
         solvent_load = solvent_type[0] % div_ions
         solvent_box = solvent_type[1]
-    except KeyError, IndexError:
-        print >> sys.stderr, 'Unsupported solvent type: %s' % solvent
-        print >> sys.stderr, 'Known types are: %s' % \
-              ', '.join(t for t in AMBER_SOLVENT_TYPES)
+    except KeyError as IndexError:
+        print('Unsupported solvent type: %s' % solvent, file=sys.stderr)
+        print('Known types are: %s' % \
+              ', '.join(t for t in AMBER_SOLVENT_TYPES), file=sys.stderr)
         sys.exit(1)
 
     # these are meant to be constants for the whole of the class hierarchy

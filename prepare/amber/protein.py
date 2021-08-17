@@ -32,8 +32,8 @@ import os
 
 import FESetup
 from FESetup import const, errors, logger
-from common import *
-import utils
+from .common import *
+from . import utils
 
 
 class Protein(Common):

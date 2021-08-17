@@ -29,7 +29,7 @@ import os
 import glob
 import re
 
-import mdebase
+from . import mdebase
 from FESetup import const, errors, logger
 from FESetup.prepare.amber import gromacs, utils
 
@@ -295,7 +295,7 @@ class MDEngine(mdebase.MDEBase):
 
         # FIXME: each molecule type only recorded once, so this means that
         #        the mask is assumed to be the same for each type
-        for name, data in self.molidx.iteritems():
+        for name, data in self.molidx.items():
             idx_list = data[0]
             natoms = data[1]
             molt_idx = []

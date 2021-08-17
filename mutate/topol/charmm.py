@@ -31,7 +31,7 @@ from collections import defaultdict
 import Sire.MM
 import Sire.Units
 
-import sander
+from . import sander
 from FESetup import const, errors, logger
 from FESetup.prepare.amber import charmm
 
@@ -143,8 +143,8 @@ class PertTopology(object):
 
         self.files_created = []
         
-        self.dummies0 = not all([a.atom for a in self.atom_map.keys()])
-        self.dummies1 = not all([a.atom for a in self.atom_map.values()])
+        self.dummies0 = not all([a.atom for a in list(self.atom_map.keys())])
+        self.dummies1 = not all([a.atom for a in list(self.atom_map.values())])
 
         if not self.dummies0 and not self.dummies1:
             self.softcore = 'nopssp'
@@ -170,7 +170,7 @@ class PertTopology(object):
         for atom in lig_morph.atoms():
             self.itypes.append(str(atom.property('initial_ambertype') ) )
 
-        for iinfo, finfo in self.atom_map.items():
+        for iinfo, finfo in list(self.atom_map.items()):
             if not finfo.atom:
                 final_type = "du"
             else:

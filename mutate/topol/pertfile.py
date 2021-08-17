@@ -60,8 +60,8 @@ class PertTopology(object):
 
         self.frcmod = None
 
-        self.dummies0 = not all([a.atom for a in atom_map.keys()])
-        self.dummies1 = not all([a.atom for a in atom_map.values()])
+        self.dummies0 = not all([a.atom for a in list(atom_map.keys())])
+        self.dummies1 = not all([a.atom for a in list(atom_map.values())])
 
         if self.separate and self.dummies0 and self.dummies1:
             self.FE_sub_type = 'dummy3'
@@ -330,7 +330,7 @@ def finalise_morph(morph, atoms_final, atom_map):
     atom_num = 0
 
     # finalise non-bonded terms of the morph
-    for iinfo, finfo in atom_map.items():
+    for iinfo, finfo in list(atom_map.items()):
         if not finfo.atom:
             final_element = Sire.Mol.Element('DU')
             final_charge = 0.0 * Sire.Units.mod_electron

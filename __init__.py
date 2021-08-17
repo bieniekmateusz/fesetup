@@ -34,7 +34,7 @@ __version__ = "0.4.0"
 import sys, os
 
 from datetime import datetime
-from cStringIO import StringIO
+from io import StringIO
 
 
 

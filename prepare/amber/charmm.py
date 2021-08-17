@@ -59,7 +59,7 @@ def _psf_format(fileh, data):
     # ugly...
     if type(data) == int:
         ld = data
-        data = (0 for i in xrange(0, data) )
+        data = (0 for i in range(0, data) )
     else:
         ld = len(data)
 
@@ -477,7 +477,7 @@ up to 8 character PSF IDs. (versions c31a1 and later)
                           '*\n'
                           '36 1\n\n')
 
-                for atom, param in self.atom_params.iteritems():
+                for atom, param in self.atom_params.items():
                     tidx += 1
                     line = 'MASS %5i %-6s %9.5f\n' % (tidx, atom, param[0])
                     prm.write(line)
@@ -489,7 +489,7 @@ up to 8 character PSF IDs. (versions c31a1 and later)
             visited = set()
 
             # FIXME: check all duplicate elimination if correct
-            for n, p in self.bond_params.iteritems():
+            for n, p in self.bond_params.items():
                 visited.add(n)
 
                 if n[0] == n[1] or (n[1], n[0]) not in visited:
@@ -501,7 +501,7 @@ up to 8 character PSF IDs. (versions c31a1 and later)
                       'OW  HW  HW    0.0  127.74 !TIP3P water\n')
             visited = set()
 
-            for n, p in self.angle_params.iteritems():
+            for n, p in self.angle_params.items():
                 visited.add(n)
 
                 if n[0] == n[2] or (n[2], n[1], n[0]) not in visited:
@@ -511,7 +511,7 @@ up to 8 character PSF IDs. (versions c31a1 and later)
             prm.write('\nDIHEDRALS\n')
             visited = set()
 
-            for n, terms in self.dihedral_params.iteritems():
+            for n, terms in self.dihedral_params.items():
                 visited.add(n)
 
                 if n[0] == n[3] or (n[3], n[2], n[1], n[0]) not in visited:
@@ -523,7 +523,7 @@ up to 8 character PSF IDs. (versions c31a1 and later)
             prm.write('\nIMPROPER\n')
             visited = set()
 
-            for n, term in self.improper_params.iteritems():
+            for n, term in self.improper_params.items():
                 visited.add(n)
 
                 if n[0] == n[3] or (n[3], n[2], n[1], n[0]) not in visited:
@@ -535,7 +535,7 @@ up to 8 character PSF IDs. (versions c31a1 and later)
 NONBONDED  NBXMOD 5  ATOM CDIEL VATOM VSWITCH -
   CTONNB 8.0 CTOFNB 10.0  CUTNB 12.0  EPS 1.0  E14FAC 0.83333333  WMIN 1.4
 ''')
-            for atom, param in self.atom_params.iteritems():
+            for atom, param in self.atom_params.items():
                 epsilon = -param[1].epsilon().value()
                 sigma = param[1].sigma().value() * const.RSTAR_CONV
 

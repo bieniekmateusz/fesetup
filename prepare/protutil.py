@@ -44,7 +44,7 @@ def protonate_propka(self, pH = 7.0):
 
     import os
     import sys
-    import  StringIO
+    import  io
 
     import propka.lib as plib
     import FESetup.propka.newmc as pmc

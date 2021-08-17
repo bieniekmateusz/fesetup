@@ -27,7 +27,7 @@ __revision__ = "$Id$"
 
 import time
 
-from datadict import DataDict, DataDictError
+from .datadict import DataDict, DataDictError
 
 
 

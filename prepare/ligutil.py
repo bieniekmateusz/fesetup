@@ -241,7 +241,7 @@ def preminimize(self, add_hyd = False, ffield = 'mmff94', nsteps = 10):
 
     # NOTE: Openbabel may miscalculate charges from mol2 files
     try:
-        mol = pybel.readfile(self.mol_fmt, self.mol_file).next()
+        mol = next(pybel.readfile(self.mol_fmt, self.mol_file))
     except IOError as why:
         raise errors.SetupError(why)
 
@@ -532,7 +532,7 @@ def conf_search(self, do_ga = False, numconf = 30, geomsteps = 5,
     """
 
     try:
-        mol = pybel.readfile(self.mol_fmt, self.mol_file).next()
+        mol = next(pybel.readfile(self.mol_fmt, self.mol_file))
     except IOError as why:
         raise errors.SetupError(why)
 

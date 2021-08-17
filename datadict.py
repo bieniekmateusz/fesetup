@@ -30,7 +30,7 @@ __revision__ = "$Id$"
 import os
 import time
 import tarfile
-import cStringIO
+import io
 import hashlib
 
 
@@ -101,7 +101,7 @@ class DataDict(dict):
             raise DataDictError('no data files')
 
         with open(filename, 'wb') as outfile:
-            for key, val in sorted(self.iteritems() ):
+            for key, val in sorted(self.items() ):
                 outfile.write('%s = %s\n' % (key, val) )
 
             outfile.write('%s\n' % self.__class__._END_TAG)
@@ -167,7 +167,7 @@ class DataDict(dict):
         :type compression_type: string
         """
         
-        memtar = cStringIO.StringIO()
+        memtar = io.StringIO()
         manifest = []
 
         with tarfile.open(mode = 'w:%s' % compression_type,
@@ -193,7 +193,7 @@ class DataDict(dict):
             tinfo = tarfile.TarInfo('manifest')
             tinfo.size = len(manifest)
             tinfo.mtime = time.time()
-            tar.addfile(tinfo, cStringIO.StringIO(manifest) )
+            tar.addfile(tinfo, io.StringIO(manifest) )
 
         data = memtar.getvalue()
         hash_val = hashlib.new(hash_type)
@@ -237,7 +237,7 @@ class DataDict(dict):
 
         with tarfile.open(mode='r:%s' % compression_type,
                           format=tarfile.PAX_FORMAT,
-                          fileobj=cStringIO.StringIO(self.data) ) as tar:
+                          fileobj=io.StringIO(self.data) ) as tar:
             tar.list()
 
 
@@ -256,13 +256,13 @@ class DataDict(dict):
 
         with tarfile.open(mode='r:%s' % compression_type,
                           format=tarfile.PAX_FORMAT,
-                          fileobj=cStringIO.StringIO(self.data) ) as tar:
+                          fileobj=io.StringIO(self.data) ) as tar:
             tar.extractall(direc)
 
 
     def __str__(self):
         return '\n'.join('{} = {}'.format(key, value)
-                         for key, value in self.iteritems()) \
+                         for key, value in self.items()) \
                          + '\n(data package size: {})'.format(len(self.data))
 
 
@@ -307,4 +307,4 @@ if __name__ == '__main__':
     #new_opts.extract(direc = '/tmp')
 
     new_opts.write('test2.model')
-    print new_opts
+    print(new_opts)

@@ -31,11 +31,11 @@ __revision__ = "$Id$"
 
 import FESetup
 from FESetup import const, errors, logger
-import utils
+from . import utils
 
-from ligand import Ligand
-from protein import Protein
-from common import *
+from .ligand import Ligand
+from .protein import Protein
+from .common import *
 
 
 

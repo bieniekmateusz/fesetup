@@ -40,9 +40,9 @@ import os, sys, re, shutil
 import openbabel as ob
 import pybel
 
-import utils                            # relative import
+from . import utils                            # relative import
 from FESetup import const, errors, logger, report
-from leap import Leap
+from .leap import Leap
 
 import Sire.IO
 

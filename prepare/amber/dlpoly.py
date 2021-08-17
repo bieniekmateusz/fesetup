@@ -287,8 +287,8 @@ class DLPolyField(object):
 
         div = math.pow(2.0, -1.0 / 6.0)
 
-        for key0, a0 in atomtypes.iteritems():
-            for key1, a1 in atomtypes.iteritems():
+        for key0, a0 in atomtypes.items():
+            for key1, a1 in atomtypes.items():
                 vkey = (key0, key1)
 
                 if vkey in self.vdw or (key1, key0) in self.vdw:
@@ -495,7 +495,7 @@ class DLPolyField(object):
 
             top.write('vdw %i\n' % len(self.vdw) )
 
-            for v, p in self.vdw.iteritems():
+            for v, p in self.vdw.items():
                 top.write('%-8s %-8s 12-6 %e %e\n' % (v[0], v[1], p[0], p[1]) )
 
             top.write('close\n')

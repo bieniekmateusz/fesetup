@@ -43,8 +43,8 @@ import openbabel as ob
 import FESetup
 from FESetup import const, errors, logger
 from . import dlfield
-from common import *
-import utils
+from .common import *
+from . import utils
 
 import Sire.IO
 
@@ -498,7 +498,7 @@ class Ligand(Common):
                 if line[:4] == 'ATOM':
                     charges.append(float(line[54:64]) )
 
-        if filter(lambda ch: math.fabs(ch) > const.MAX_CHARGE, charges):
+        if [ch for ch in charges if math.fabs(ch) > const.MAX_CHARGE]:
             logger.write('Warning: some atom charges > %.2f' %
                          const.MAX_CHARGE)
 

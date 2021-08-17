@@ -179,7 +179,7 @@ class IniParser(dict):
                 if self.key not in self[self.section]:
                     # NOTE: fuzzy matching may need refinement
                     maybe_list = difflib.get_close_matches(self.key,
-                                            self[self.section].keys(), 5, 0.5)
+                                            list(self[self.section].keys()), 5, 0.5)
 
                     if len(maybe_list) > 1:
                         maybe_text = (', did you mean any of %s...?' %
@@ -207,8 +207,8 @@ class IniParser(dict):
         try:
             funct = self.conv[self.section][self.key]
         except KeyError:
-            print >>sys.stderr, ('missing key in conversion table: '
-                                 '[%s] %s' % (self.section, self.key) )
+            print(('missing key in conversion table: '
+                                 '[%s] %s' % (self.section, self.key) ), file=sys.stderr)
             raise
 
         if not funct:
@@ -218,19 +218,19 @@ class IniParser(dict):
             try:
                 method = getattr(self, '_str2' + funct[0])
             except AttributeError:
-                print >> sys.stderr, ('unknown conversion function %s' %
-                                      funct[0])
+                print(('unknown conversion function %s' %
+                                      funct[0]), file=sys.stderr)
                 raise
 
             try:
                 val = method(self.val, *funct[1:])
             except TypeError:
-                print >>sys.stderr, '%s is not callable ' % method
+                print('%s is not callable ' % method, file=sys.stderr)
                 raise
         elif callable(funct[0]):
             val = funct[0](self.val, *funct[1:])
         else:
-            print >>sys.stderr, ('unkown function type for %s' % funct[0])
+            print(('unkown function type for %s' % funct[0]), file=sys.stderr)
             raise TypeError
 
         if val == None:

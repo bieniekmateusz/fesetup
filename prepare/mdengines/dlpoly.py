@@ -27,7 +27,7 @@ __revision__ = "$Id$"
 
 import os, sys, shutil, math
 
-import mdebase
+from . import mdebase
 from FESetup import const, errors, logger
 from FESetup.prepare.amber import dlpoly, utils
 

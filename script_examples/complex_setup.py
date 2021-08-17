@@ -40,7 +40,7 @@ amber = prepare.ForceField('amber', 'ff14SB', 'tip3p', 'cm', [], 'amber')
 protein_file = os.path.join(top, 'thrombin/protein/2ZC9/protein.pdb')
 protein_wd = os.path.join(top, '_protein', '2ZC9')
 
-print 'Making protein 2ZC9...'
+print('Making protein 2ZC9...')
 protein = amber.Protein('2ZC9', protein_file)
 
 with DirManager(protein_wd):
@@ -64,7 +64,7 @@ for name in ligand_names:
     ligand_file = os.path.join(top, 'thrombin/poses/%s/ligand.pdb' % name)
     ligand_wd = os.path.join(top, '_ligands', name)
 
-    print 'Making ligand %s...' % name
+    print('Making ligand %s...' % name)
     ligand = amber.Ligand(name, ligand_file)
 
     with DirManager(ligand_wd):
@@ -87,7 +87,7 @@ for name in ligand_names:
             ligand.md(namelist='%CONSTT', nsteps=200, restraint='notsolvent',
                       T=300.0)
 
-            print 'Making complex with %s...' % name
+            print('Making complex with %s...' % name)
             complex = amber.Complex(protein, ligand)
 
             # make complexes
@@ -118,12 +118,12 @@ for name in ligand_names:
                                restr_force=rforce)
 
 
-        except errors.SetupError, why:
+        except errors.SetupError as why:
             failed.append(name)
-            print '%s failed: %s' % (name, why)
+            print('%s failed: %s' % (name, why))
 
 if failed:
-    print >>sys.stderr, 'The following ligands have failed:'
+    print('The following ligands have failed:', file=sys.stderr)
 
     for name in failed:
-        print >>sys.stderr, '  %s' % name
+        print('  %s' % name, file=sys.stderr)

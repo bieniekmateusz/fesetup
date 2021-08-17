@@ -330,7 +330,7 @@ class GromacsTop(object):
 
         # FIXME: we need to preserve molecule order, e.g. ions may be
         #        alternating
-        for seq, num in resnames.iteritems():
+        for seq, num in resnames.items():
             slen = len(seq)
 
             if seq[0] == 'WAT' and slen == 1:

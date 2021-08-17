@@ -58,7 +58,7 @@ def dummy(lig_morph, con_morph, lig_final, atom_map):
     pert1_info = []
     H_bonded = set()
 
-    for iinfo, finfo in atom_map.items():
+    for iinfo, finfo in list(atom_map.items()):
         istr = iinfo.name.value()
         fstr = finfo.name.value()
 
@@ -140,7 +140,7 @@ def softcore(lig_morph, lig_final, atom_map):
     idels = []
     fdels = []
 
-    for iinfo, finfo in atom_map.iteritems():
+    for iinfo, finfo in atom_map.items():
         istr = iinfo.name.value()
         fstr = finfo.name.value()
         iidx = iinfo.index
@@ -270,7 +270,7 @@ def write_mdin(atoms_initial, atoms_final, atom_map, prog, style='', vac=True):
     ifsc = 1
     dt = 0.002
 
-    for iinfo, finfo in atom_map.items():
+    for iinfo, finfo in list(atom_map.items()):
         # FIXME: also set noshakemask if dt is set to smaller value
         if iinfo.atom and finfo.atom:
             el0 = atoms_initial.select(iinfo.index).property('element').symbol()

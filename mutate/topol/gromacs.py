@@ -29,7 +29,7 @@ import os
 import sys
 from collections import defaultdict
 
-import sander
+from . import sander
 from FESetup import const, errors, logger
 from FESetup.prepare.amber import gromacs
 
@@ -121,8 +121,8 @@ class PertTopology(object):
 
         self.files_created = []
 
-        self.dummies0 = not all([a.atom for a in self.atom_map.keys()])
-        self.dummies1 = not all([a.atom for a in self.atom_map.values()])
+        self.dummies0 = not all([a.atom for a in list(self.atom_map.keys())])
+        self.dummies1 = not all([a.atom for a in list(self.atom_map.values())])
 
         if self.separate and self.dummies0 and self.dummies1:
             self.FE_sub_type = 'dummy3'

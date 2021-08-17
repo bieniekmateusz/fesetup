@@ -21,7 +21,7 @@ r"""
 Simple user interface for free energy simulation preparation.
 """
 
-from __future__ import print_function
+
 import sys
 
 if ('%x' % sys.hexversion)[:3] != '207':
@@ -92,7 +92,7 @@ class dGprepError(Exception):
 def check_dict(section, opts):
     """Check the sanity of options.  Signal unset values."""
 
-    for key, val in opts[section].iteritems():
+    for key, val in opts[section].items():
         if val == None:
             raise dGprepError('key [%s] %s is mandatory but is not set '
                               'in input file' % (section, key) )
@@ -1136,7 +1136,7 @@ if __name__ == '__main__':
 
     # NOTE: does a complex for individual ligands need to be built when
     #       complex morphs are requested?
-    for protein in proteins.keys():
+    for protein in list(proteins.keys()):
         if proteins[protein] in prot_failed:
             print ('WARNING: not making complex with protein %s because '
                    'build failed' %  protein.mol_name)
@@ -1189,7 +1189,7 @@ if __name__ == '__main__':
     cwd = os.getcwd()
 
     for morph in morphs:
-        for complex in complexes.keys():
+        for complex in list(complexes.keys()):
             name = complex.mol_name + '/' + morph.name
 
             # FIXME: Complex has no ligand component after restart

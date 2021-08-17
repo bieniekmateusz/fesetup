@@ -38,12 +38,12 @@ def get_MDEngine(mdengine):
         mde = __import__('FESetup.prepare.mdengines.' + mdengine,
                          fromlist = '*')
     except ImportError as detail:
-        print >> sys.stderr, 'Error: %s' % detail
-        print >> sys.stderr, 'Ensure all modules are properly installed'
+        print('Error: %s' % detail, file=sys.stderr)
+        print('Ensure all modules are properly installed', file=sys.stderr)
         sys.exit(1)
     except AttributeError as detail:
-        print >> sys.stderr, 'Error: %s' % detail
-        print >> sys.stderr, 'Failed to properly initialize %s' % ff
+        print('Error: %s' % detail, file=sys.stderr)
+        print('Failed to properly initialize %s' % ff, file=sys.stderr)
         sys.exit(1)
 
     return mde.MDEngine

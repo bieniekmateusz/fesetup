@@ -31,7 +31,7 @@ import re
 import glob
 import math
 import itertools
-import cPickle as pickle
+import pickle as pickle
 from collections import OrderedDict, defaultdict
 
 import openbabel as ob
@@ -272,7 +272,7 @@ def mcss(mol2str_1, mol2str_2, maxtime=60, isotope_map=None, selec=''):
 
         # NOTE: would it make sense to have multiple atoms of a molecule tagged
         #       as the same isotope?
-        for idx1, idx2 in isotope_map.iteritems():
+        for idx1, idx2 in isotope_map.items():
             icnt += 1
 
             logger.write('Mapping atom index %i to %i' % (idx1, idx2) )
@@ -323,7 +323,7 @@ def mcss(mol2str_1, mol2str_2, maxtime=60, isotope_map=None, selec=''):
 
     logger.write('Running RDKit/fmcs (%s implementation) with arguments:\n%s' %
                  (_fmcs_imp,
-                  ', '.join(['%s=%s' % (k,v) for k,v in _params.iteritems()] ) ) )
+                  ', '.join(['%s=%s' % (k,v) for k,v in _params.items()] ) ) )
 
     if not smarts:
         raise errors.SetupError('No MCSS match could be found')
@@ -395,11 +395,11 @@ def mcss(mol2str_1, mol2str_2, maxtime=60, isotope_map=None, selec=''):
                     mind = sumd
                     minxy = [x,y]
         if swapped:
-            mapping = dict(zip(m2[minxy[1]], m1[minxy[0]]))
+            mapping = dict(list(zip(m2[minxy[1]], m1[minxy[0]])))
         else:
             # JM bug 11/17 ? 
             #mapping = dict(zip(m1[minxy[1]], m2[minxy[0]]))
-             mapping = dict(zip(m1[minxy[0]], m2[minxy[1]]))
+             mapping = dict(list(zip(m1[minxy[0]], m2[minxy[1]])))
         #print (mapping)
 
         #dist_sum = []
@@ -434,7 +434,7 @@ def mcss(mol2str_1, mol2str_2, maxtime=60, isotope_map=None, selec=''):
         m1 = mol1.GetSubstructMatch(p)
         m2 = mol2.GetSubstructMatch(p)
 
-        mapping = dict(zip(m1, m2) )
+        mapping = dict(list(zip(m1, m2)) )
 
     # FIXME: we may have to reconsider this and understand when rings have
     #        to be assumed "broken"
@@ -463,7 +463,7 @@ def mcss(mol2str_1, mol2str_2, maxtime=60, isotope_map=None, selec=''):
                     if idx in ring and ring_info2.NumAtomRings(idx) == 1:
                         delete_values.append(idx)
 
-        mapping = {k: v for k, v in mapping.items() if v not in delete_values}
+        mapping = {k: v for k, v in list(mapping.items()) if v not in delete_values}
 
 
     delete_atoms = []
@@ -484,8 +484,8 @@ def mcss(mol2str_1, mol2str_2, maxtime=60, isotope_map=None, selec=''):
     conv.WriteFile(obmol1, const.MCS_MOL_FILE)
 
     with open(const.MCS_MAP_FILE, 'wb') as pkl:
-        pickle.dump(mapping.keys(), pkl, 0)
-        pickle.dump(mapping.values(), pkl, 0)
+        pickle.dump(list(mapping.keys()), pkl, 0)
+        pickle.dump(list(mapping.values()), pkl, 0)
 
     return mapping
 
@@ -728,7 +728,7 @@ def search_by_index(query, atom_map):
     :rtype: Sire.Mol.AtomIdx or None
     """
 
-    for key, value in atom_map.items():
+    for key, value in list(atom_map.items()):
         if query == key.index:
             return value.index
 
@@ -745,7 +745,7 @@ def search_atom(query, atom_map):
     :rtype: Sire.Mol.Atom or None
     """
 
-    for key, value in atom_map.items():
+    for key, value in list(atom_map.items()):
         if query == key.index:
             return value.atom
 
@@ -762,7 +762,7 @@ def search_atominfo(query, atom_map):
     :rtype: _AtomInfo or None
     """
 
-    for key, value in atom_map.items():
+    for key, value in list(atom_map.items()):
         if query == key.index:
             return value
 
@@ -851,7 +851,7 @@ def parm_conn(lig_morph, atoms_initial, lig_initial, lig_final, atom_map,
     con_initial = lig_initial.property('connectivity')
     con_final = lig_final.property('connectivity')
 
-    for i, f in atom_map.iteritems():
+    for i, f in atom_map.items():
         if not i.atom:
             bonded_indices = []
 
@@ -956,8 +956,7 @@ def dummy_coords(lig_morph, con_morph, atoms_initial, lig_initial, lig_final,
                     at2_index = at2f.index
                     at3_index = at3f.index
 
-                    names = filter(lambda n: n,
-                                   (at1_index, at2_index, at3_index) )
+                    names = [n for n in (at1_index, at2_index, at3_index) if n]
 
                     if len(names) < 3:
                         raise errors.SetupError('BUG: %s not found in atom map'
@@ -1017,8 +1016,8 @@ def dummy_coords(lig_morph, con_morph, atoms_initial, lig_initial, lig_final,
             # FIXME: reorder final state such that there are no dummies at the
             #        beginning
             if (error_type == 'SireError::invalid_index'):
-                print (lig_final.nAtoms(), at0_index, at1_index, at2_index,
-                       at3_index)
+                print((lig_final.nAtoms(), at0_index, at1_index, at2_index,
+                       at3_index))
                 raise errors.SetupError(
                     'BUG: index out of range: lig_morph has more atoms than '
                     'final state.')
@@ -1168,7 +1167,7 @@ def _add_proper(idx, terms, parm):
 def _add_improper(impropers0, impropers1, parm):
     """Helper function to recreate parmtop improper dihedral table."""
 
-    for k, v in impropers0.iteritems():
+    for k, v in impropers0.items():
         if k not in impropers1:
             i1, i2, i3, i4 = v[:4]
             per, phi_k, phase, scee, scnb = v[4:]
@@ -1413,7 +1412,7 @@ def patch_parmtop(parm0_fn, parm1_fn, mask0, mask1, copy_dih=True):
  
 
     # fix multitermS for proper 1,4 pairs
-    for terms0, terms1 in zip(propers_coll0.values(), propers_coll1.values() ):
+    for terms0, terms1 in zip(list(propers_coll0.values()), list(propers_coll1.values()) ):
          if len(terms0) > 1:
              for term0 in terms0[:-1]:
                  term0[0] = abs(term0[0])
@@ -1459,7 +1458,7 @@ def transfer_charges(mol0, mol1, atom_map, dum=False):
 
     fdummies = False
 
-    for finfo in atom_map.values():
+    for finfo in list(atom_map.values()):
         if not finfo.atom:
             fdummies = True
             break
@@ -1476,7 +1475,7 @@ def transfer_charges(mol0, mol1, atom_map, dum=False):
         new.setProperty('charge', 0.0 * Sire.Units.mod_electron)
         mol = new.molecule()
 
-    for iinfo, finfo in atom_map.items():
+    for iinfo, finfo in list(atom_map.items()):
         new = mol.atom(iinfo.index) # AtomEditor
 
         if not finfo.atom:
@@ -1520,7 +1519,7 @@ def zero_charges(mol1, atom_map):
     mol_m = Sire.Mol.Molecule(mol1)
     mol = mol_m.edit()                  # MolEditor
 
-    for finfo in atom_map.values():
+    for finfo in list(atom_map.values()):
         new = mol.atom(finfo.index)     # AtomEditor
 
         if not finfo.atom:

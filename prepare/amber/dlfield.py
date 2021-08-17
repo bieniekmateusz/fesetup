@@ -123,7 +123,7 @@ def dlf_write(mol, postfix = '', pdb_name = const.LIGAND_NAME):
     for names, charge in zip(atom_info, charges):
         udff.write('%-2s %-2s %9.5f\n' % (names[0], names[1], charge) )
 
-    for con in connects.iteritems():
+    for con in connects.items():
         if len(con) > 1:
             udff.write('CONNECT %s > %s\n' %
                        (con[0], ' '.join('%s' % s for s in con[1:][0]) ) )
@@ -189,7 +189,7 @@ def dlf_write(mol, postfix = '', pdb_name = const.LIGAND_NAME):
         udff.write('BOND\n')
         visited = set()
 
-        for b in bond_info.keys():
+        for b in list(bond_info.keys()):
             visited.add(b)
 
             if b[1] == b[0] or (b[1], b[0]) not in visited:
@@ -220,7 +220,7 @@ def dlf_write(mol, postfix = '', pdb_name = const.LIGAND_NAME):
         udff.write('ANGLE\n')
         visited = set()
 
-        for a in angle_info.keys():
+        for a in list(angle_info.keys()):
             visited.add(a)
 
             if a[0] == a[2] or (a[2], a[1], a[0]) not in visited:
@@ -271,7 +271,7 @@ def dlf_write(mol, postfix = '', pdb_name = const.LIGAND_NAME):
         if propers:
             udff.write('DIHEDRAL\n')
 
-            for a, t in propers.iteritems():
+            for a, t in propers.items():
                 npar = len(t[0])
                 cnt = 0
 
@@ -294,7 +294,7 @@ def dlf_write(mol, postfix = '', pdb_name = const.LIGAND_NAME):
     if improper_params:
         udff.write('IMPROPER\n')
 
-        for t, p in improper_params.iteritems():
+        for t, p in improper_params.items():
             udff.write('%s %s %s %s %.3f %.3f %i\n' %
                             (t[0], t[1], t[2], t[3],
                              p[0], p[1] * const.RAD2DEG, p[2]) )

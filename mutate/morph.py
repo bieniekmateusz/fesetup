@@ -37,6 +37,7 @@ from FESetup import const, errors, logger, report
 from . import util
 
 import Sire.IO
+from functools import reduce
 
 
 REST_PDB_NAME = 'ligand_removed.pdb'
@@ -236,7 +237,7 @@ class Morph(object):
 
         logger.write('\nAtom mapping between initial and final states:')
 
-        for i, f in self.atom_map.items():
+        for i, f in list(self.atom_map.items()):
             logger.write("%s <--> %s" % (i.name, f.name) )
 
         logger.write('')

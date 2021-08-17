@@ -30,7 +30,7 @@ import os
 from FESetup import const, errors, logger
 from FESetup.mutate import util
 
-import amber
+from . import amber
 
 
 class PertTopology(object):
@@ -65,8 +65,8 @@ class PertTopology(object):
         self.frcmod0 = None
         self.frcmod1 = None
 
-        self.dummies0 = not all([a.atom for a in atom_map.keys()])
-        self.dummies1 = not all([a.atom for a in atom_map.values()])
+        self.dummies0 = not all([a.atom for a in list(atom_map.keys())])
+        self.dummies1 = not all([a.atom for a in list(atom_map.values())])
 
         self.mdin = True
 
